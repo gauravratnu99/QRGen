@@ -1,0 +1,6 @@
+{
+  "name": "QRGen",
+  "description": "Generate high-resolution custom QR codes for any URL with instant downloads in PNG, JPG, and SVG formats.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
