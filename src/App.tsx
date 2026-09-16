@@ -6,9 +6,12 @@ import {
   Shield,
   Smartphone,
   Zap,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { QrConfig, QrHistoryItem, DownloadFormat } from './types';
 import { DEFAULT_CONFIG } from './utils/qr';
+import { useTheme } from './hooks/useTheme';
 import { LiquidBackground } from './components/LiquidBackground';
 import { UrlInputSection } from './components/UrlInputSection';
 import { CustomizationPanel } from './components/CustomizationPanel';
@@ -19,6 +22,7 @@ import { RecentHistory } from './components/RecentHistory';
 const HISTORY_STORAGE_KEY = 'liquid_qr_history';
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const [config, setConfig] = useState<QrConfig>(DEFAULT_CONFIG);
   const [history, setHistory] = useState<QrHistoryItem[]>([]);
 
@@ -92,23 +96,23 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-slate-100 flex flex-col justify-between selection:bg-cyan-500/20 selection:text-cyan-200">
+    <div className="min-h-screen text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-cyan-500/20 selection:text-cyan-800 dark:selection:text-cyan-200 transition-colors duration-200">
       <LiquidBackground />
 
       {/* Main Container */}
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         {/* Minimalist Header */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-800">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-cyan-600 dark:text-cyan-400 shadow-sm">
               <QrCode className="w-5 h-5" />
             </div>
 
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-display">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-display">
                 QRGen
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                 Fast, high-resolution QR codes in PNG, JPG, and vector SVG
               </p>
             </div>
@@ -116,19 +120,42 @@ export default function App() {
 
           {/* Header Action Tools */}
           <div className="flex items-center gap-2 self-start sm:self-auto">
-            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400">
-              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+              <Shield className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>100% Client-side & Private</span>
             </div>
 
+            {/* Theme Toggle Button */}
+            <button
+              id="theme-toggle-button"
+              type="button"
+              onClick={toggleTheme}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 transition-all active:scale-95 shadow-sm"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label="Toggle light and dark theme"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="font-medium">Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-slate-700" />
+                  <span className="font-medium">Dark</span>
+                </>
+              )}
+            </button>
+
+            {/* Reset Button */}
             <button
               id="reset-config-button"
               type="button"
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 transition-all active:scale-95 shadow-sm"
               title="Reset to default settings"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+              <RotateCcw className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               <span>Reset</span>
             </button>
           </div>
@@ -141,7 +168,7 @@ export default function App() {
             {/* Input Card */}
             <section
               id="input-card"
-              className="p-5 sm:p-7 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-sm"
+              className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm"
             >
               <UrlInputSection url={config.url} onChange={handleUrlChange} />
             </section>
@@ -149,7 +176,7 @@ export default function App() {
             {/* Customization Card */}
             <section
               id="styling-card"
-              className="p-5 sm:p-7 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-sm space-y-6"
+              className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6"
             >
               <CustomizationPanel config={config} onChange={handleConfigChange} />
             </section>
@@ -157,7 +184,7 @@ export default function App() {
             {/* Download Action Card */}
             <section
               id="download-card"
-              className="p-5 sm:p-7 rounded-2xl bg-slate-900/60 border border-slate-800 shadow-sm"
+              className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm"
             >
               <DownloadSection config={config} onDownloaded={handleDownloadSuccess} />
             </section>
@@ -175,38 +202,38 @@ export default function App() {
             <QrPreviewCard config={config} />
 
             {/* Quick Tips & Specs Card */}
-            <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-xs text-slate-400 space-y-2.5">
-              <div className="flex items-center gap-2 text-slate-300 font-semibold">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-2.5">
+              <div className="flex items-center gap-2 text-slate-800 dark:text-slate-300 font-semibold">
+                <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                 <span>Format Guidelines</span>
               </div>
               <ul className="space-y-1.5 pl-1 text-[11px] leading-relaxed">
                 <li className="flex items-start gap-1.5">
-                  <span className="font-semibold text-cyan-300 shrink-0">• SVG:</span>
+                  <span className="font-semibold text-cyan-700 dark:text-cyan-300 shrink-0">• SVG:</span>
                   <span>Ideal for print banners, merchandise, and vector editing. Never loses crispness.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <span className="font-semibold text-cyan-300 shrink-0">• PNG:</span>
+                  <span className="font-semibold text-cyan-700 dark:text-cyan-300 shrink-0">• PNG:</span>
                   <span>Perfect for presentations, web graphics, and supports transparent backgrounds.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <span className="font-semibold text-cyan-300 shrink-0">• JPG:</span>
+                  <span className="font-semibold text-cyan-700 dark:text-cyan-300 shrink-0">• JPG:</span>
                   <span>Great for standard photo galleries, quick emails, and general sharing.</span>
                 </li>
               </ul>
             </div>
 
             {/* Scannability Guarantee */}
-            <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800 flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 shrink-0">
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
                 <Smartphone className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-medium text-emerald-300 flex items-center gap-1">
+                <div className="font-medium text-emerald-700 dark:text-emerald-300 flex items-center gap-1">
                   <span>Universal Compatibility</span>
                   <Zap className="w-3 h-3" />
                 </div>
-                <div className="text-[11px] text-slate-400">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">
                   Standard ISO/IEC 18004 compliant QR matrix scannable by iOS and Android camera apps.
                 </div>
               </div>
@@ -216,9 +243,9 @@ export default function App() {
       </div>
 
       {/* Minimalist Footer */}
-      <footer className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+      <footer className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
         <div className="flex items-center gap-1.5">
-          <span>QRGen</span>
+          <span className="font-medium text-slate-800 dark:text-slate-200">QRGen</span>
           <span>•</span>
           <span>Made by</span>
           <a
@@ -226,15 +253,15 @@ export default function App() {
             href="https://www.linkedin.com/in/gauravratnu/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-400 transition-colors"
+            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-medium underline underline-offset-4 decoration-cyan-500/30 hover:decoration-cyan-500 transition-colors"
           >
             Gaurav Ratnu
           </a>
         </div>
-        <div className="flex items-center gap-4 text-slate-500">
+        <div className="flex items-center gap-4 text-slate-500 dark:text-slate-500">
           <span>100% Client-Side</span>
           <span>•</span>
-          <span className="text-slate-400 font-medium">PNG • JPG • SVG • WebP</span>
+          <span className="text-slate-700 dark:text-slate-400 font-medium">PNG • JPG • SVG • WebP</span>
         </div>
       </footer>
     </div>
