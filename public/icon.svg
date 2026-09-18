@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+  </defs>
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="none" stroke="#1e293b" stroke-width="6" />
+
+  <!-- Top-Left Finder Pattern -->
+  <rect x="88" y="88" width="128" height="128" rx="28" fill="none" stroke="url(#grad1)" stroke-width="24" />
+  <rect x="128" y="128" width="48" height="48" rx="12" fill="#38bdf8" />
+
+  <!-- Top-Right Finder Pattern -->
+  <rect x="296" y="88" width="128" height="128" rx="28" fill="none" stroke="url(#grad1)" stroke-width="24" />
+  <rect x="336" y="128" width="48" height="48" rx="12" fill="#38bdf8" />
+
+  <!-- Bottom-Left Finder Pattern -->
+  <rect x="88" y="296" width="128" height="128" rx="28" fill="none" stroke="url(#grad1)" stroke-width="24" />
+  <rect x="128" y="336" width="48" height="48" rx="12" fill="#38bdf8" />
+
+  <!-- Data Modules / Liquid Matrix Bits -->
+  <rect x="244" y="96" width="24" height="24" rx="6" fill="#38bdf8" />
+  <rect x="244" y="144" width="24" height="48" rx="8" fill="#06b6d4" />
+  <rect x="244" y="244" width="48" height="24" rx="8" fill="#38bdf8" />
+  <rect x="316" y="244" width="32" height="32" rx="8" fill="#0ea5e9" />
+  <rect x="380" y="244" width="44" height="24" rx="6" fill="#38bdf8" />
+  
+  <rect x="96" y="244" width="48" height="24" rx="8" fill="#0ea5e9" />
+  <rect x="168" y="244" width="24" height="24" rx="6" fill="#38bdf8" />
+
+  <rect x="244" y="316" width="24" height="68" rx="8" fill="#06b6d4" />
+  <rect x="296" y="316" width="44" height="44" rx="12" fill="url(#grad1)" />
+  <rect x="368" y="316" width="56" height="24" rx="6" fill="#38bdf8" />
+  <rect x="296" y="388" width="44" height="36" rx="8" fill="#38bdf8" />
+  <rect x="368" y="368" width="56" height="56" rx="16" fill="url(#grad1)" />
+</svg>
