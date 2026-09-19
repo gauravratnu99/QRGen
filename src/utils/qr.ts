@@ -26,6 +26,9 @@ export const COLOR_PRESETS = [
 export function isValidUrl(input: string): boolean {
   if (!input || !input.trim()) return false;
   const trimmed = input.trim();
+  if (/^(mailto|tel|sms):/i.test(trimmed)) {
+    return true;
+  }
   try {
     const parsed = new URL(trimmed);
     return Boolean(parsed.protocol);
@@ -37,15 +40,106 @@ export function isValidUrl(input: string): boolean {
 }
 
 /**
- * Normalizes user input into a clickable URL
+ * Normalizes user input into a clickable URL or URI
  */
 export function normalizeUrl(input: string): string {
   const trimmed = input.trim();
   if (!trimmed) return '';
-  if (/^[a-zA-Z]+:\/\//.test(trimmed)) {
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed)) {
     return trimmed;
   }
   return `https://${trimmed}`;
+}
+
+export type PayloadCategory = 'url' | 'email' | 'phone' | 'sms' | 'instagram' | 'whatsapp' | 'text';
+
+/**
+ * Detects the category of QR payload for specialized badges and scanner previews
+ */
+export function detectPayloadCategory(payload: string): {
+  type: PayloadCategory;
+  label: string;
+  actionText: string;
+  displayValue: string;
+} {
+  const trimmed = (payload || '').trim();
+  if (!trimmed) {
+    return {
+      type: 'text',
+      label: 'Empty',
+      actionText: 'Enter Content',
+      displayValue: 'No content entered',
+    };
+  }
+
+  if (/^mailto:/i.test(trimmed)) {
+    const rawEmail = trimmed.replace(/^mailto:/i, '').split('?')[0];
+    return {
+      type: 'email',
+      label: 'Email Draft',
+      actionText: 'Send Email',
+      displayValue: rawEmail,
+    };
+  }
+
+  if (/^tel:/i.test(trimmed)) {
+    const rawPhone = trimmed.replace(/^tel:/i, '');
+    return {
+      type: 'phone',
+      label: 'Phone Call',
+      actionText: 'Call Phone Number',
+      displayValue: rawPhone,
+    };
+  }
+
+  if (/^sms:/i.test(trimmed)) {
+    const rawSms = trimmed.replace(/^sms:/i, '').split('?')[0];
+    return {
+      type: 'sms',
+      label: 'SMS Message',
+      actionText: 'Send Text Message',
+      displayValue: rawSms,
+    };
+  }
+
+  if (/instagram\.com/i.test(trimmed)) {
+    let username = '';
+    const match = trimmed.match(/instagram\.com\/([a-zA-Z0-9_.-]+)/i);
+    if (match && match[1]) {
+      username = `@${match[1].replace(/\/$/, '')}`;
+    }
+    return {
+      type: 'instagram',
+      label: 'Instagram Profile',
+      actionText: 'Open in Instagram',
+      displayValue: username || trimmed,
+    };
+  }
+
+  if (/wa\.me/i.test(trimmed) || /whatsapp\.com/i.test(trimmed)) {
+    return {
+      type: 'whatsapp',
+      label: 'WhatsApp Chat',
+      actionText: 'Chat on WhatsApp',
+      displayValue: trimmed,
+    };
+  }
+
+  if (/^[a-zA-Z]+:\/\//.test(trimmed) || /^www\./i.test(trimmed) || isValidUrl(trimmed)) {
+    return {
+      type: 'url',
+      label: 'Web Link',
+      actionText: 'Open in Browser',
+      displayValue: trimmed,
+    };
+  }
+
+  return {
+    type: 'text',
+    label: 'Plain Text',
+    actionText: 'Copy Text',
+    displayValue: trimmed,
+  };
 }
 
 /**

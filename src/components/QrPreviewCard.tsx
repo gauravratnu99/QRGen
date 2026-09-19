@@ -8,9 +8,14 @@ import {
   Scan,
   ExternalLink,
   ShieldAlert,
+  Mail,
+  Phone,
+  Instagram,
+  MessageSquare,
+  Link2,
 } from 'lucide-react';
 import { QrConfig } from '../types';
-import { renderQrToCanvas, generateQrSvg, copyQrToClipboard, normalizeUrl } from '../utils/qr';
+import { renderQrToCanvas, generateQrSvg, copyQrToClipboard, normalizeUrl, detectPayloadCategory } from '../utils/qr';
 
 interface QrPreviewCardProps {
   config: QrConfig;
@@ -26,6 +31,7 @@ export const QrPreviewCard: React.FC<QrPreviewCardProps> = ({ config }) => {
 
   const displayUrl = config.url.trim() || 'https://google.com';
   const normalized = normalizeUrl(displayUrl);
+  const category = detectPayloadCategory(config.url);
 
   // Render QR code to canvas whenever config changes
   useEffect(() => {
@@ -148,17 +154,27 @@ export const QrPreviewCard: React.FC<QrPreviewCardProps> = ({ config }) => {
 
       {/* Target Link Information */}
       <div className="w-full mt-4 text-center z-10 space-y-2">
-        <div className="flex items-center justify-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 truncate px-2">
-          <span className="truncate max-w-[240px] sm:max-w-xs font-mono">
-            {displayUrl}
+        <div className="flex items-center justify-center gap-1.5 flex-wrap px-2">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-cyan-500/10 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20">
+            {category.type === 'email' && <Mail className="w-3 h-3 text-blue-500" />}
+            {category.type === 'phone' && <Phone className="w-3 h-3 text-emerald-500" />}
+            {category.type === 'sms' && <MessageSquare className="w-3 h-3 text-cyan-500" />}
+            {category.type === 'instagram' && <Instagram className="w-3 h-3 text-pink-500" />}
+            {category.type === 'url' && <Link2 className="w-3 h-3 text-cyan-500" />}
+            <span>{category.label}</span>
           </span>
+
+          <span className="truncate max-w-[200px] sm:max-w-xs font-mono text-xs text-slate-600 dark:text-slate-400">
+            {category.displayValue || displayUrl}
+          </span>
+
           <a
             id="preview-link-test"
             href={normalized}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 hover:underline inline-flex items-center"
-            title="Open destination in new tab"
+            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 hover:underline inline-flex items-center p-0.5"
+            title={`Test: ${category.actionText}`}
           >
             <ExternalLink className="w-3 h-3 ml-0.5" />
           </a>
@@ -250,7 +266,7 @@ export const QrPreviewCard: React.FC<QrPreviewCardProps> = ({ config }) => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-700 dark:text-cyan-300 hover:text-cyan-900 dark:hover:text-cyan-200 bg-cyan-500/20 hover:bg-cyan-500/30 px-2.5 py-1 rounded-lg transition-colors"
             >
-              <span>Test Visit</span>
+              <span>{category.actionText}</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
