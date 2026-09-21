@@ -305,8 +305,6 @@ export default function App() {
             <span>Install on Phone</span>
           </button>
           <span>•</span>
-          <span>100% Client-Side</span>
-          <span>•</span>
           <span className="text-slate-700 dark:text-slate-400 font-medium">PNG • JPG • SVG • WebP</span>
         </div>
       </footer>
