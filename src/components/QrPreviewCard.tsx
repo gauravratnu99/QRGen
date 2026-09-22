@@ -86,7 +86,7 @@ export const QrPreviewCard: React.FC<QrPreviewCardProps> = ({ config }) => {
       className="relative flex flex-col items-center justify-between p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/60 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-all duration-300"
     >
       {/* Top action header */}
-      <div className="w-full flex items-center justify-between mb-4 z-10">
+      <div className="w-full flex items-center justify-between mb-6 sm:mb-8">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -126,108 +126,108 @@ export const QrPreviewCard: React.FC<QrPreviewCardProps> = ({ config }) => {
         </div>
       </div>
 
-      {/* QR Canvas Display Plate */}
+      {/* QR Canvas Display Plate - Completely clean quiet zone with zero overlapping elements */}
       <div
         id="qr-canvas-dock"
-        className={`relative flex items-center justify-center p-4 sm:p-6 rounded-2xl transition-all duration-300 z-10 shadow-xl border border-slate-200/80 dark:border-transparent ${
+        className={`relative flex items-center justify-center p-4 sm:p-5 rounded-2xl transition-all duration-300 shadow-xl border border-slate-200/90 dark:border-slate-700/60 overflow-hidden shrink-0 ${
           config.transparentBg
             ? 'bg-[linear-gradient(45deg,#94a3b8_25%,transparent_25%),linear-gradient(-45deg,#94a3b8_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#94a3b8_75%),linear-gradient(-45deg,transparent_75%,#94a3b8_75%)] dark:bg-[linear-gradient(45deg,#1e293b_25%,transparent_25%),linear-gradient(-45deg,#1e293b_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#1e293b_75%),linear-gradient(-45deg,transparent_75%,#1e293b_75%)] bg-[size:16px_16px] bg-[position:0_0,0_8px,8px_-8px,-8px_0]'
             : ''
         }`}
         style={{
           backgroundColor: config.transparentBg ? undefined : config.bgColor,
-          width: isZoomed ? 'min(90vw, 380px)' : 'min(75vw, 280px)',
-          height: isZoomed ? 'min(90vw, 380px)' : 'min(75vw, 280px)',
+          width: isZoomed ? 'min(85vw, 360px)' : 'min(72vw, 260px)',
+          height: isZoomed ? 'min(85vw, 360px)' : 'min(72vw, 260px)',
         }}
       >
         <canvas
           id="qr-canvas-element"
           ref={canvasRef}
-          className={`w-full h-full object-contain rounded-lg transition-opacity duration-200 ${
+          className={`max-w-full max-h-full w-full h-full object-contain block transition-opacity duration-200 ${
             isGenerating ? 'opacity-50' : 'opacity-100'
           }`}
         />
-
-        {/* Liquid reflection gloss overlay */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-tr from-white/0 via-white/5 to-white/10" />
       </div>
 
-      {/* Target Link Information */}
-      <div className="w-full mt-4 text-center z-10 space-y-2">
-        <div className="flex items-center justify-center gap-1.5 flex-wrap px-2">
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-cyan-500/10 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20">
-            {category.type === 'email' && <Mail className="w-3 h-3 text-blue-500" />}
-            {category.type === 'phone' && <Phone className="w-3 h-3 text-emerald-500" />}
-            {category.type === 'sms' && <MessageSquare className="w-3 h-3 text-cyan-500" />}
-            {category.type === 'instagram' && <Instagram className="w-3 h-3 text-pink-500" />}
-            {category.type === 'url' && <Link2 className="w-3 h-3 text-cyan-500" />}
-            <span>{category.label}</span>
-          </span>
+      {/* Target Link Information & Actions - Positioned cleanly below the QR stage with generous separation */}
+      <div className="w-full mt-8 sm:mt-10 pt-6 border-t border-slate-100 dark:border-slate-800/80 text-center space-y-4">
+        {/* Link Metadata */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-center gap-1.5 flex-wrap px-2">
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-cyan-500/10 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20">
+              {category.type === 'email' && <Mail className="w-3 h-3 text-blue-500" />}
+              {category.type === 'phone' && <Phone className="w-3 h-3 text-emerald-500" />}
+              {category.type === 'sms' && <MessageSquare className="w-3 h-3 text-cyan-500" />}
+              {category.type === 'instagram' && <Instagram className="w-3 h-3 text-pink-500" />}
+              {category.type === 'url' && <Link2 className="w-3 h-3 text-cyan-500" />}
+              <span>{category.label}</span>
+            </span>
 
-          <span className="truncate max-w-[200px] sm:max-w-xs font-mono text-xs text-slate-600 dark:text-slate-400">
-            {category.displayValue || displayUrl}
-          </span>
+            <span className="truncate max-w-[200px] sm:max-w-xs font-mono text-xs text-slate-600 dark:text-slate-400">
+              {category.displayValue || displayUrl}
+            </span>
 
-          <a
-            id="preview-link-test"
-            href={normalized}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 hover:underline inline-flex items-center p-0.5"
-            title={`Test: ${category.actionText}`}
+            <a
+              id="preview-link-test"
+              href={normalized}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 hover:underline inline-flex items-center p-0.5"
+              title={`Test: ${category.actionText}`}
+            >
+              <ExternalLink className="w-3 h-3 ml-0.5" />
+            </a>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 dark:text-slate-500">
+            <span>{displayUrl.length} characters</span>
+            <span>•</span>
+            <span>Level {config.errorCorrectionLevel}</span>
+            <span>•</span>
+            <span>{config.transparentBg ? 'Alpha BG' : 'Solid BG'}</span>
+          </div>
+        </div>
+
+        {/* Quick Copy Action Bar */}
+        <div className="w-full grid grid-cols-2 gap-2 pt-1">
+          <button
+            id="copy-image-clipboard-btn"
+            type="button"
+            onClick={handleCopyImage}
+            className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-200 transition-all hover:border-cyan-500/40 active:scale-[0.98]"
           >
-            <ExternalLink className="w-3 h-3 ml-0.5" />
-          </a>
+            {copyImageSuccess ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                <span className="text-emerald-700 dark:text-emerald-300">Copied Image</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                <span>Copy Image</span>
+              </>
+            )}
+          </button>
+
+          <button
+            id="copy-svg-code-btn"
+            type="button"
+            onClick={handleCopySvg}
+            className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-200 transition-all hover:border-cyan-500/40 active:scale-[0.98]"
+          >
+            {copySvgSuccess ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                <span className="text-emerald-700 dark:text-emerald-300">Copied SVG</span>
+              </>
+            ) : (
+              <>
+                <Code2 className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                <span>Copy SVG</span>
+              </>
+            )}
+          </button>
         </div>
-
-        <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 dark:text-slate-500">
-          <span>{displayUrl.length} characters</span>
-          <span>•</span>
-          <span>Level {config.errorCorrectionLevel}</span>
-          <span>•</span>
-          <span>{config.transparentBg ? 'Alpha BG' : 'Solid BG'}</span>
-        </div>
-      </div>
-
-      {/* Quick Copy Action Bar */}
-      <div className="w-full grid grid-cols-2 gap-2 mt-4 z-10">
-        <button
-          id="copy-image-clipboard-btn"
-          type="button"
-          onClick={handleCopyImage}
-          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-200 transition-all hover:border-cyan-500/40 active:scale-[0.98]"
-        >
-          {copyImageSuccess ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
-              <span className="text-emerald-700 dark:text-emerald-300">Copied Image</span>
-            </>
-          ) : (
-            <>
-              <Copy className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-              <span>Copy Image</span>
-            </>
-          )}
-        </button>
-
-        <button
-          id="copy-svg-code-btn"
-          type="button"
-          onClick={handleCopySvg}
-          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-200 transition-all hover:border-cyan-500/40 active:scale-[0.98]"
-        >
-          {copySvgSuccess ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
-              <span className="text-emerald-700 dark:text-emerald-300">Copied SVG</span>
-            </>
-          ) : (
-            <>
-              <Code2 className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-              <span>Copy SVG</span>
-            </>
-          )}
-        </button>
       </div>
 
       {/* Scan Simulator / Verification Drawer */}

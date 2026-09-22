@@ -181,6 +181,13 @@ export async function renderQrToCanvas(
       light: lightColor,
     },
   });
+
+  // Explicitly reset inline dimensions set by QRCode library so the canvas respects its responsive CSS container
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.maxWidth = '100%';
+  canvas.style.maxHeight = '100%';
+  canvas.style.display = 'block';
 }
 
 /**
