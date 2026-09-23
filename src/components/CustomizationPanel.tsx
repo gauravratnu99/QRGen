@@ -29,7 +29,7 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ config, 
         <div className="flex items-center justify-between">
           <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <Palette className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
-            <span>Color Palette</span>
+            <span>Color Palette for QR Code</span>
           </label>
         </div>
 
