@@ -213,7 +213,7 @@ export const UrlInputSection: React.FC<UrlInputSectionProps> = ({ url, onChange 
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
-          <span>Share Type</span>
+          <span>Share Your Input</span>
         </span>
 
         {url && (
