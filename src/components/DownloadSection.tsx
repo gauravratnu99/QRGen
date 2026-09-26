@@ -68,12 +68,14 @@ export const DownloadSection: React.FC<DownloadSectionProps> = ({ config, onDown
   const handleDownloadAll = async () => {
     try {
       setDownloadingFormat('all');
-      // Download PNG, JPG, and SVG in sequence
+      // Download PNG, JPG, SVG, and WebP in sequence
       await downloadQr(config, 'png');
       await new Promise((r) => setTimeout(r, 200));
       await downloadQr(config, 'jpg');
       await new Promise((r) => setTimeout(r, 200));
       await downloadQr(config, 'svg');
+      await new Promise((r) => setTimeout(r, 200));
+      await downloadQr(config, 'webp');
       setDownloadedFormat('all');
       onDownloaded?.('png');
       setTimeout(() => setDownloadedFormat(null), 2500);
@@ -111,7 +113,7 @@ export const DownloadSection: React.FC<DownloadSectionProps> = ({ config, onDown
           ) : (
             <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
           )}
-          <span>{downloadedFormat === 'all' ? 'All Downloaded!' : 'Download All (PNG + JPG + SVG)'}</span>
+          <span>{downloadedFormat === 'all' ? 'All Downloaded!' : 'Download All (PNG + JPG + SVG + WebP)'}</span>
         </button>
       </div>
 
@@ -152,6 +154,8 @@ export const DownloadSection: React.FC<DownloadSectionProps> = ({ config, onDown
                         ? 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20'
                         : opt.format === 'png'
                         ? 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/20'
+                        : opt.format === 'webp'
+                        ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20'
                         : 'bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border-slate-300 dark:border-slate-700'
                     }`}
                   >
@@ -196,7 +200,7 @@ export const DownloadSection: React.FC<DownloadSectionProps> = ({ config, onDown
         ) : (
           <Sparkles className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
         )}
-        <span>Download All Formats (PNG, JPG, SVG)</span>
+        <span>Download All Formats (PNG, JPG, SVG, WebP)</span>
       </button>
     </div>
   );

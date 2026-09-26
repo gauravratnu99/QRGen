@@ -123,7 +123,7 @@ export default function App() {
                   </span>
                 </div>
                 <p className="hidden sm:block text-xs sm:text-sm text-slate-500 dark:text-slate-400 truncate">
-                  Fast, high-resolution QR codes in PNG, JPG, and vector SVG
+                  Fast, high-resolution QR codes in PNG, JPG, SVG, and WebP
                 </p>
               </div>
             </div>
@@ -189,7 +189,7 @@ export default function App() {
 
           {/* Mobile Secondary Bar (Shows tagline & privacy indicator on small screens) */}
           <div className="flex sm:hidden items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1.5 border-t border-slate-100 dark:border-slate-800/60">
-            <span className="truncate">High-res PNG • JPG • SVG QR generator</span>
+            <span className="truncate">High-res PNG • JPG • SVG • WebP QR generator</span>
             <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium shrink-0 ml-2">
               <Shield className="w-3 h-3" />
               <span>Private</span>
@@ -255,6 +255,10 @@ export default function App() {
                 <li className="flex items-start gap-1.5">
                   <span className="font-semibold text-cyan-700 dark:text-cyan-300 shrink-0">• JPG:</span>
                   <span>Great for standard photo galleries, quick emails, and general sharing.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="font-semibold text-cyan-700 dark:text-cyan-300 shrink-0">• WebP:</span>
+                  <span>Compact next-generation web image format optimized for high speed and small file size.</span>
                 </li>
               </ul>
             </div>
