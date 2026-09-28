@@ -1,6 +1,6 @@
 import React from 'react';
 import { Palette, ShieldCheck, Maximize2, Layers, Check } from 'lucide-react';
-import { QrConfig, ErrorCorrectionLevel, ExportResolution } from '../types';
+import { QrConfig, ErrorCorrectionLevel, ExportResolution, ColorPreset } from '../types';
 import { COLOR_PRESETS } from '../utils/qr';
 
 interface CustomizationPanelProps {
@@ -33,53 +33,107 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ config, 
           </label>
         </div>
 
-        {/* Liquid Presets */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-          {COLOR_PRESETS.map((preset) => {
-            const isSelected =
-              config.fgColor.toLowerCase() === preset.fg.toLowerCase() &&
-              config.bgColor.toLowerCase() === preset.bg.toLowerCase() &&
-              !config.transparentBg;
+        {/* Color Presets: Line 1 & Line 2 */}
+        <div className="space-y-2">
+          {/* Line 1 */}
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {COLOR_PRESETS.slice(0, 6).map((preset) => {
+              const isSelected =
+                config.fgColor.toLowerCase() === preset.fg.toLowerCase() &&
+                config.bgColor.toLowerCase() === preset.bg.toLowerCase() &&
+                !config.transparentBg;
+              const isDarkBg = preset.bg === '#020617' || preset.bg === '#052e16';
 
-            return (
-              <button
-                key={preset.name}
-                id={`color-preset-${preset.name.toLowerCase().replace(/\s+/g, '-')}`}
-                type="button"
-                onClick={() =>
-                  onChange({
-                    fgColor: preset.fg,
-                    bgColor: preset.bg,
-                    transparentBg: false,
-                  })
-                }
-                className={`relative flex flex-col items-center gap-1 p-2 rounded-xl border transition-all text-left ${
-                  isSelected
-                    ? 'bg-cyan-500/10 dark:bg-white/10 border-cyan-500 dark:border-cyan-400 shadow-md shadow-cyan-500/10'
-                    : 'bg-slate-100 dark:bg-slate-900/50 border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20'
-                }`}
-                title={preset.name}
-              >
-                <div
-                  className="w-full h-7 rounded-lg flex items-center justify-center relative overflow-hidden shadow-inner border border-slate-200/50 dark:border-transparent"
-                  style={{ backgroundColor: preset.bg }}
+              return (
+                <button
+                  key={preset.name}
+                  id={`color-preset-${preset.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  type="button"
+                  onClick={() =>
+                    onChange({
+                      fgColor: preset.fg,
+                      bgColor: preset.bg,
+                      transparentBg: false,
+                    })
+                  }
+                  className={`relative flex flex-col items-center gap-1 p-2 rounded-xl border transition-all text-left ${
+                    isSelected
+                      ? 'bg-cyan-500/10 dark:bg-white/10 border-cyan-500 dark:border-cyan-400 shadow-md shadow-cyan-500/10'
+                      : 'bg-slate-100 dark:bg-slate-900/50 border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20'
+                  }`}
+                  title={preset.name}
                 >
                   <div
-                    className="w-3.5 h-3.5 rounded-sm shadow-sm"
-                    style={{ backgroundColor: preset.fg }}
-                  />
-                  {isSelected && (
-                    <div className="absolute inset-0 bg-cyan-500/15 flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-slate-900 drop-shadow" />
-                    </div>
-                  )}
-                </div>
-                <span className="text-[10px] text-slate-600 dark:text-slate-400 truncate w-full text-center font-medium">
-                  {preset.name}
-                </span>
-              </button>
-            );
-          })}
+                    className="w-full h-7 rounded-lg flex items-center justify-center relative overflow-hidden shadow-inner border border-slate-200/50 dark:border-white/10"
+                    style={{ backgroundColor: preset.bg }}
+                  >
+                    <div
+                      className="w-3.5 h-3.5 rounded-sm shadow-sm"
+                      style={{ backgroundColor: preset.fg }}
+                    />
+                    {isSelected && (
+                      <div className="absolute inset-0 bg-cyan-500/15 flex items-center justify-center">
+                        <Check className={`w-3.5 h-3.5 drop-shadow ${isDarkBg ? 'text-white' : 'text-slate-900'}`} />
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-400 truncate w-full text-center font-medium">
+                    {preset.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Line 2 (totally different palette choices) */}
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {COLOR_PRESETS.slice(6, 12).map((preset) => {
+              const isSelected =
+                config.fgColor.toLowerCase() === preset.fg.toLowerCase() &&
+                config.bgColor.toLowerCase() === preset.bg.toLowerCase() &&
+                !config.transparentBg;
+              const isDarkBg = preset.bg === '#020617' || preset.bg === '#052e16';
+
+              return (
+                <button
+                  key={preset.name}
+                  id={`color-preset-${preset.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  type="button"
+                  onClick={() =>
+                    onChange({
+                      fgColor: preset.fg,
+                      bgColor: preset.bg,
+                      transparentBg: false,
+                    })
+                  }
+                  className={`relative flex flex-col items-center gap-1 p-2 rounded-xl border transition-all text-left ${
+                    isSelected
+                      ? 'bg-cyan-500/10 dark:bg-white/10 border-cyan-500 dark:border-cyan-400 shadow-md shadow-cyan-500/10'
+                      : 'bg-slate-100 dark:bg-slate-900/50 border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20'
+                  }`}
+                  title={preset.name}
+                >
+                  <div
+                    className="w-full h-7 rounded-lg flex items-center justify-center relative overflow-hidden shadow-inner border border-slate-200/50 dark:border-white/10"
+                    style={{ backgroundColor: preset.bg }}
+                  >
+                    <div
+                      className="w-3.5 h-3.5 rounded-sm shadow-sm"
+                      style={{ backgroundColor: preset.fg }}
+                    />
+                    {isSelected && (
+                      <div className="absolute inset-0 bg-cyan-500/15 flex items-center justify-center">
+                        <Check className={`w-3.5 h-3.5 drop-shadow ${isDarkBg ? 'text-white' : 'text-slate-900'}`} />
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-400 truncate w-full text-center font-medium">
+                    {preset.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Custom Color Pickers */}

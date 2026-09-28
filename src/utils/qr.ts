@@ -1,5 +1,5 @@
 import QRCode from 'qrcode';
-import { QrConfig, DownloadFormat } from '../types';
+import { QrConfig, DownloadFormat, ColorPreset } from '../types';
 
 export const DEFAULT_CONFIG: QrConfig = {
   url: 'https://github.com',
@@ -11,13 +11,22 @@ export const DEFAULT_CONFIG: QrConfig = {
   resolution: 1024,
 };
 
-export const COLOR_PRESETS = [
+export const COLOR_PRESETS: ColorPreset[] = [
+  // Line 1: Signature & Modern
   { name: 'Classic Slate', fg: '#0f172a', bg: '#ffffff', accent: '#3b82f6' },
   { name: 'Liquid Ocean', fg: '#0369a1', bg: '#f0f9ff', accent: '#0284c7' },
   { name: 'Emerald Forest', fg: '#064e3b', bg: '#f0fdf4', accent: '#10b981' },
   { name: 'Midnight Violet', fg: '#3b0764', bg: '#faf5ff', accent: '#a855f7' },
   { name: 'Sunset Amber', fg: '#7c2d12', bg: '#fffbeb', accent: '#f97316' },
   { name: 'Cyber Neon', fg: '#38bdf8', bg: '#020617', accent: '#06b6d4' },
+
+  // Line 2: Vibrant, Warm & Expressive
+  { name: 'Ruby Crimson', fg: '#881337', bg: '#fff1f2', accent: '#f43f5e' },
+  { name: 'Royal Indigo', fg: '#1e1b4b', bg: '#eef2ff', accent: '#6366f1' },
+  { name: 'Nordic Sage', fg: '#134e4a', bg: '#ccfbf1', accent: '#14b8a6' },
+  { name: 'Warm Mocha', fg: '#451a03', bg: '#fef3c7', accent: '#d97706' },
+  { name: 'Solar Tangerine', fg: '#9a3412', bg: '#ffedd5', accent: '#ea580c' },
+  { name: 'Dark Matrix', fg: '#4ade80', bg: '#052e16', accent: '#22c55e' },
 ];
 
 /**
