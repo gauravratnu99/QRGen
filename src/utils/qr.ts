@@ -3,8 +3,8 @@ import { QrConfig, DownloadFormat, ColorPreset } from '../types';
 
 export const DEFAULT_CONFIG: QrConfig = {
   url: 'https://github.com',
-  fgColor: '#0f172a',
-  bgColor: '#ffffff',
+  fgColor: '#38bdf8',
+  bgColor: '#020617',
   transparentBg: false,
   errorCorrectionLevel: 'M',
   margin: 2,
@@ -13,12 +13,12 @@ export const DEFAULT_CONFIG: QrConfig = {
 
 export const COLOR_PRESETS: ColorPreset[] = [
   // Line 1: Signature & Modern
+  { name: 'Cyber Neon', fg: '#38bdf8', bg: '#020617', accent: '#06b6d4' },
   { name: 'Classic Slate', fg: '#0f172a', bg: '#ffffff', accent: '#3b82f6' },
   { name: 'Liquid Ocean', fg: '#0369a1', bg: '#f0f9ff', accent: '#0284c7' },
   { name: 'Emerald Forest', fg: '#064e3b', bg: '#f0fdf4', accent: '#10b981' },
   { name: 'Midnight Violet', fg: '#3b0764', bg: '#faf5ff', accent: '#a855f7' },
   { name: 'Sunset Amber', fg: '#7c2d12', bg: '#fffbeb', accent: '#f97316' },
-  { name: 'Cyber Neon', fg: '#38bdf8', bg: '#020617', accent: '#06b6d4' },
 
   // Line 2: Vibrant, Warm & Expressive
   { name: 'Ruby Crimson', fg: '#881337', bg: '#fff1f2', accent: '#f43f5e' },
